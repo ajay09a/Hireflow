@@ -5,6 +5,7 @@ import "dotenv/config";
 import connectDB from "./config/database.js";
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js"
+import jobRouter from "./routes/job.routes.js";
 
 
 const app = express();
@@ -14,6 +15,8 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 
 app.use("/api/users", userRouter);
+
+app.use("/api/jobs", jobRouter);
 
 const PORT = process.env.PORT;
 
