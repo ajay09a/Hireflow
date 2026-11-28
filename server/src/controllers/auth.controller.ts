@@ -43,7 +43,7 @@ export const loginUser = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const user = await loginService(req.body);
+    const { user, token }  = await loginService(req.body);
 
     res.status(200).json({
       success: true,
@@ -53,6 +53,7 @@ export const loginUser = async (
         name: user.name,
         email: user.email,
         role: user.role,
+        token,
       },
     });
   } catch (error) {

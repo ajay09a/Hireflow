@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import AppError from "../utils/AppError.js";
+import generateToken from "../utils/token.utils.js";
 
 const hashPassword = async(password:string): Promise<string> =>{
     const saltRound = 12;
@@ -64,7 +65,12 @@ export const loginService = async (data: LoginInput) => {
     throw new AppError("Invalid email or password", 401);
   }
 
-  return user;
+  const token = generateToken({
+    userId: user._id.toString(),
+    role: user.role,
+    });
+
+  return { user, token };
 };
 
 export {hashPassword, comparePassword};

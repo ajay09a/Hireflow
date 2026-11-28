@@ -4,6 +4,7 @@ import errorHandler from "./middleware/error.middleware.js";
 import "dotenv/config";
 import connectDB from "./config/database.js";
 import authRouter from "./routes/auth.routes.js";
+import userRouter from "./routes/user.routes.js"
 
 
 const app = express();
@@ -11,6 +12,8 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
+
+app.use("/api/users", userRouter);
 
 const PORT = process.env.PORT;
 
