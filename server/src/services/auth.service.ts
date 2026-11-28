@@ -23,6 +23,11 @@ interface RegisterInput {
     password: string;
 }
 
+interface LoginInput {
+  email: string;
+  password: string;
+}
+
 export const registerService = async (data: RegisterInput) => {
     const existingUser = await User.findOne({email:data.email});
 
@@ -40,5 +45,26 @@ export const registerService = async (data: RegisterInput) => {
 
     return user;
 }
+
+export const loginService = async (data: LoginInput) => {
+  const user = await User.findOne({
+    email: data.email.toLowerCase(),
+  }).select("+password");
+
+  if (!user) {
+    throw new AppError("Invalid email or password", 401);
+  }
+
+  const isPasswordValid = await comparePassword(
+    data.password,
+    user.password
+  );
+
+  if (!isPasswordValid) {
+    throw new AppError("Invalid email or password", 401);
+  }
+
+  return user;
+};
 
 export {hashPassword, comparePassword};
